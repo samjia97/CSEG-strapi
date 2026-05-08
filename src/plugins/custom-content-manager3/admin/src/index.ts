@@ -5,7 +5,6 @@ import {reducer} from './modules/reducers';
 import {routes} from './router';
 import {prefixPluginTranslations} from './utils/translations';
 
-import 'prismjs';
 import {ContentManagerPlugin} from "./content-manager";
 
 export default {
