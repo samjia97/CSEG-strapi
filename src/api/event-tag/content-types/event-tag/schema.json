@@ -39,6 +39,12 @@
       "relation": "manyToMany",
       "target": "api::research-project.research-project",
       "inversedBy": "research_topics"
+    },
+    "news": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::news.news",
+      "mappedBy": "news_tags"
     }
   }
 }

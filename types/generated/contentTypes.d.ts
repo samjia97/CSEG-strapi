@@ -565,6 +565,7 @@ export interface ApiEventTagEventTag extends Struct.CollectionTypeSchema {
       'api::event-tag.event-tag'
     > &
       Schema.Attribute.Private;
+    news: Schema.Attribute.Relation<'manyToMany', 'api::news.news'>;
     publications: Schema.Attribute.Relation<
       'manyToMany',
       'api::publication.publication'
@@ -1000,6 +1001,55 @@ export interface ApiMemberMember extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 2000;
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNewsNews extends Struct.CollectionTypeSchema {
+  collectionName: 'news_items';
+  info: {
+    displayName: 'News';
+    pluralName: 'news-items';
+    singularName: 'news';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: true;
+    };
+  };
+  attributes: {
+    abstract: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 250;
+      }>;
+    author: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+    coverImage: Schema.Attribute.Media<'images'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::news.news'> &
+      Schema.Attribute.Private;
+    news_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::event-tag.event-tag'
+    >;
+    newsContent: Schema.Attribute.RichText & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
       }>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1748,6 +1798,7 @@ declare module '@strapi/strapi' {
       'api::member-application.member-application': ApiMemberApplicationMemberApplication;
       'api::member-type.member-type': ApiMemberTypeMemberType;
       'api::member.member': ApiMemberMember;
+      'api::news.news': ApiNewsNews;
       'api::publication.publication': ApiPublicationPublication;
       'api::research-project.research-project': ApiResearchProjectResearchProject;
       'api::scheduled-email.scheduled-email': ApiScheduledEmailScheduledEmail;

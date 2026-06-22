@@ -55,5 +55,9 @@ export default ({env}) => ({
   'research-plugin':{
     enabled: true,
     resolve: './src/plugins/research-plugin'
+  },
+  'news-plugin':{
+    enabled: true,
+    resolve: './src/plugins/news-plugin'
   }
 });
