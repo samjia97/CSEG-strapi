@@ -22,7 +22,7 @@ const index = {
         defaultMessage: "Display markdown documentation"
       },
       components: {
-        Input: async () => import("../_chunks/Input-ByUNzGZN.mjs")
+        Input: async () => import("../_chunks/Input-Ck95e8Kq.mjs")
       },
       options: {
         base: [{

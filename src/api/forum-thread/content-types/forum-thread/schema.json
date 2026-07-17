@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "forum_threads",
+  "info": {
+    "singularName": "forum-thread",
+    "pluralName": "forum-threads",
+    "displayName": "Forum Thread"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "maxLength": 200,
+      "required": true
+    },
+    "body": {
+      "type": "richtext",
+      "required": true
+    },
+    "authorName": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "authorEmail": {
+      "type": "email",
+      "private": true
+    },
+    "forum_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::event-tag.event-tag",
+      "inversedBy": "forum_threads"
+    },
+    "postType": {
+      "type": "enumeration",
+      "default": "question",
+      "enum": ["question", "note", "idea", "collaborator"]
+    }
+  }
+}

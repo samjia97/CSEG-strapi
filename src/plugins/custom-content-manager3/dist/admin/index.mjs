@@ -1,5 +1,5 @@
-import { i } from "../_chunks/index-DLmy0Bnc.mjs";
-import "prismjs";
+import { i } from "./index-BnfICSrd.mjs";
 export {
   i as default
 };
+//# sourceMappingURL=index.mjs.map

@@ -90,11 +90,18 @@ const useUpdateAction = (
 
       // Handle updating existing document
       if (documentId || collectionType === SINGLE_TYPES) {
-        const { data } = handleInvisibleAttributes(transformData(document), {
+        const transformed = handleInvisibleAttributes(transformData(document), {
           schema,
           initialValues,
           components,
         });
+        // For blog, this Update button is the moderation "Reject" action: force
+        // the status so the blog-moderation middleware emails the author the
+        // feedback and removes the draft.
+        const data =
+          model === 'api::blog.blog'
+            ? { ...transformed.data, moderationStatus: 'rejected' }
+            : transformed.data;
         const res = await update(
           {
             collectionType,
@@ -107,6 +114,17 @@ const useUpdateAction = (
 
         if ('error' in res && isBaseQueryError(res.error) && res.error.name === 'ValidationError') {
           setErrors(formatValidationErrors(res.error));
+        } else if (model === 'api::blog.blog') {
+          // Blog "Reject" deletes the entry server-side (moderation middleware),
+          // so this edit page no longer exists. Go back to the list to avoid not found error
+          toggleNotification({
+            type: 'success',
+            message: 'Blog rejected — the draft was removed and the feedback emailed to the author.',
+          });
+          navigate(
+            { pathname: '..', search: rawQuery },
+            { replace: true, relative: 'path' }
+          );
         } else {
           resetForm(document);
         }
@@ -153,12 +171,22 @@ const useUpdateAction = (
     }
   };
 
+  // Per-content-type relabelling of this Update button:
+  //  - forum-thread has no draft/publish split, so a "save" publishes it live;
+  //  - blog uses this button as the moderation "Reject" action
+  const isForumThread = model === 'api::forum-thread.forum-thread';
+  const isBlog = model === 'api::blog.blog';
+
   return {
-    label: 'Save draft',
+    label: isBlog
+      ? 'Reject (notify author)'
+      : isForumThread
+        ? 'Publish onto public website'
+        : 'Save draft',
     onClick: handleUpdate,
     loading: isLoading,
     disabled: isSubmitting || !modified || activeTab === 'published',
-    variant: 'tertiary',
+    variant: isBlog ? 'danger' : 'tertiary',
   };
 };
 

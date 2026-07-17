@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "labels",
+  "info": {
+    "singularName": "label",
+    "pluralName": "labels",
+    "displayName": "Label"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "labelName": {
+      "type": "string",
+      "maxLength": 30,
+      "required": true,
+      "unique": true
+    },
+    "blogs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::blog.blog",
+      "mappedBy": "labels"
+    }
+  }
+}

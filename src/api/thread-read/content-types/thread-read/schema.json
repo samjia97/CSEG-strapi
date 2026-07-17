@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "thread_reads",
+  "info": {
+    "singularName": "thread-read",
+    "pluralName": "thread-reads",
+    "displayName": "Thread Read"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "required": true
+    },
+    "threadDocumentId": {
+      "type": "string",
+      "required": true
+    },
+    "lastReadAt": {
+      "type": "datetime",
+      "required": true
+    }
+  }
+}

@@ -458,6 +458,66 @@ export interface ApiAboutPageAboutPage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
+  collectionName: 'blogs';
+  info: {
+    displayName: 'Blog';
+    pluralName: 'blogs';
+    singularName: 'blog';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: true;
+    };
+  };
+  attributes: {
+    abstract: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }>;
+    authorBio: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }>;
+    authorEmail: Schema.Attribute.Email & Schema.Attribute.Private;
+    authorName: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }>;
+    blog_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::event-tag.event-tag'
+    >;
+    body: Schema.Attribute.RichText & Schema.Attribute.Required;
+    coverImage: Schema.Attribute.Media<'images'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    feedback: Schema.Attribute.Text & Schema.Attribute.Private;
+    labels: Schema.Attribute.Relation<'manyToMany', 'api::label.label'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'> &
+      Schema.Attribute.Private;
+    moderationStatus: Schema.Attribute.Enumeration<
+      ['pending', 'approved', 'rejected']
+    > &
+      Schema.Attribute.Private &
+      Schema.Attribute.DefaultTo<'pending'>;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiContactContact extends Struct.CollectionTypeSchema {
   collectionName: 'contacts';
   info: {
@@ -552,10 +612,15 @@ export interface ApiEventTagEventTag extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    blogs: Schema.Attribute.Relation<'manyToMany', 'api::blog.blog'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     events: Schema.Attribute.Relation<'manyToMany', 'api::event.event'>;
+    forum_threads: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::forum-thread.forum-thread'
+    >;
     internalOnlyTagDescription: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.Private;
@@ -752,6 +817,57 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiForumThreadForumThread extends Struct.CollectionTypeSchema {
+  collectionName: 'forum_threads';
+  info: {
+    displayName: 'Forum Thread';
+    pluralName: 'forum-threads';
+    singularName: 'forum-thread';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: true;
+    };
+  };
+  attributes: {
+    authorEmail: Schema.Attribute.Email & Schema.Attribute.Private;
+    authorName: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }>;
+    body: Schema.Attribute.RichText & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    forum_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::event-tag.event-tag'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::forum-thread.forum-thread'
+    > &
+      Schema.Attribute.Private;
+    postType: Schema.Attribute.Enumeration<
+      ['question', 'note', 'idea', 'collaborator']
+    > &
+      Schema.Attribute.DefaultTo<'question'>;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -804,6 +920,37 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
       'oneToMany',
       'api::home-page.home-page'
     > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiLabelLabel extends Struct.CollectionTypeSchema {
+  collectionName: 'labels';
+  info: {
+    displayName: 'Label';
+    pluralName: 'labels';
+    singularName: 'label';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    blogs: Schema.Attribute.Relation<'manyToMany', 'api::blog.blog'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    labelName: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 30;
+      }>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::label.label'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -1257,6 +1404,148 @@ export interface ApiTextEmailTemplateTextEmailTemplate
     templateName: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiThreadReadThreadRead extends Struct.CollectionTypeSchema {
+  collectionName: 'thread_reads';
+  info: {
+    displayName: 'Thread Read';
+    pluralName: 'thread-reads';
+    singularName: 'thread-read';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    lastReadAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::thread-read.thread-read'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    threadDocumentId: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    > &
+      Schema.Attribute.Required;
+  };
+}
+
+export interface PluginCommentsComment extends Struct.CollectionTypeSchema {
+  collectionName: 'plugin_comments_comments';
+  info: {
+    description: 'Comment content type';
+    displayName: 'Comment';
+    kind: 'collectionType';
+    pluralName: 'comments';
+    singularName: 'comment';
+    tableName: 'plugin-comments-comments';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    approvalStatus: Schema.Attribute.Enumeration<
+      ['PENDING', 'APPROVED', 'REJECTED']
+    >;
+    authorAvatar: Schema.Attribute.String;
+    authorEmail: Schema.Attribute.Email;
+    authorId: Schema.Attribute.String;
+    authorName: Schema.Attribute.String;
+    authorUser: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    blockedThread: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    blockReason: Schema.Attribute.String;
+    content: Schema.Attribute.Text & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isAdminComment: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::comments.comment'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    related: Schema.Attribute.String;
+    removed: Schema.Attribute.Boolean;
+    reports: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::comments.comment-report'
+    >;
+    threadOf: Schema.Attribute.Relation<'oneToOne', 'plugin::comments.comment'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface PluginCommentsCommentReport
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'plugin_comments_reports';
+  info: {
+    description: 'Reports content type';
+    displayName: 'Reports';
+    kind: 'collectionType';
+    pluralName: 'comment-reports';
+    singularName: 'comment-report';
+    tableName: 'plugin-comments-reports';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    content: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::comments.comment-report'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    reason: Schema.Attribute.Enumeration<
+      ['BAD_LANGUAGE', 'DISCRIMINATION', 'OTHER']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'OTHER'>;
+    related: Schema.Attribute.Relation<'manyToOne', 'plugin::comments.comment'>;
+    resolved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1726,6 +2015,10 @@ export interface PluginUsersPermissionsUser
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }>;
     docs: Schema.Attribute.String &
       Schema.Attribute.CustomField<
         'plugin::documentation-viewer.doc-viewer',
@@ -1749,6 +2042,8 @@ export interface PluginUsersPermissionsUser
     > &
       Schema.Attribute.Private;
     MD: Schema.Attribute.RichText;
+    mustResetPassword: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
@@ -1788,12 +2083,15 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::about-page.about-page': ApiAboutPageAboutPage;
+      'api::blog.blog': ApiBlogBlog;
       'api::contact.contact': ApiContactContact;
       'api::documentation.documentation': ApiDocumentationDocumentation;
       'api::event-tag.event-tag': ApiEventTagEventTag;
       'api::event.event': ApiEventEvent;
+      'api::forum-thread.forum-thread': ApiForumThreadForumThread;
       'api::global.global': ApiGlobalGlobal;
       'api::home-page.home-page': ApiHomePageHomePage;
+      'api::label.label': ApiLabelLabel;
       'api::leadership.leadership': ApiLeadershipLeadership;
       'api::member-application.member-application': ApiMemberApplicationMemberApplication;
       'api::member-type.member-type': ApiMemberTypeMemberType;
@@ -1803,6 +2101,9 @@ declare module '@strapi/strapi' {
       'api::research-project.research-project': ApiResearchProjectResearchProject;
       'api::scheduled-email.scheduled-email': ApiScheduledEmailScheduledEmail;
       'api::text-email-template.text-email-template': ApiTextEmailTemplateTextEmailTemplate;
+      'api::thread-read.thread-read': ApiThreadReadThreadRead;
+      'plugin::comments.comment': PluginCommentsComment;
+      'plugin::comments.comment-report': PluginCommentsCommentReport;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

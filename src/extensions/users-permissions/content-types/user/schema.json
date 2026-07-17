@@ -59,6 +59,15 @@
       "default": false,
       "configurable": false
     },
+    "mustResetPassword": {
+      "type": "boolean",
+      "default": false,
+      "configurable": false
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500
+    },
     "role": {
       "type": "relation",
       "relation": "manyToOne",

@@ -45,6 +45,18 @@
       "relation": "manyToMany",
       "target": "api::news.news",
       "mappedBy": "news_tags"
+    },
+    "forum_threads": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::forum-thread.forum-thread",
+      "mappedBy": "forum_tags"
+    },
+    "blogs": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::blog.blog",
+      "mappedBy": "blog_tags"
     }
   }
 }

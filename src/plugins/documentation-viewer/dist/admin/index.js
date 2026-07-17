@@ -23,7 +23,7 @@ const index = {
         defaultMessage: "Display markdown documentation"
       },
       components: {
-        Input: async () => Promise.resolve().then(() => require("../_chunks/Input-CE10xWhl.js"))
+        Input: async () => Promise.resolve().then(() => require("../_chunks/Input-oMDOrm98.js"))
       },
       options: {
         base: [{

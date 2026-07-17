@@ -4,6 +4,8 @@ import {memberApplicationMiddleware} from "./utils/member-application-middleware
 import {eventNotificationMiddleware} from "./utils/document-service-middlewares";
 import {eventICSMiddleware} from "./utils/eventICSMiddleware";
 import {validateRelations} from "./utils/required-relations-custom";
+import {blogModerationMiddleware} from "./utils/blog-moderation-middleware";
+import {registerPasswordResetLifecycle} from "./utils/user-password-lifecycle";
 
 export default {
   /**
@@ -18,6 +20,7 @@ export default {
     strapi.documents.use(memberApplicationMiddleware());
     strapi.documents.use(eventNotificationMiddleware());
     strapi.documents.use(eventICSMiddleware());
+    strapi.documents.use(blogModerationMiddleware());
 
   },
 
@@ -37,6 +40,8 @@ export default {
         await validateRelations(event, strapi);
       },
     });
+
+    registerPasswordResetLifecycle(strapi);
   }
 };
 

@@ -1,4 +1,5 @@
 "use strict";
-const index = require("../_chunks/index-ySPu0CBj.js");
-require("prismjs");
-module.exports = index.index;
+Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
+const index = require("./index-5kUiK4jn.js");
+exports.default = index.index;
+//# sourceMappingURL=index.js.map
