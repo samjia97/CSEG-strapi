@@ -1,0 +1,7 @@
+import { InputProps } from '@strapi/strapi/admin';
+import { Schema } from '@strapi/types';
+interface NotAllowedInputProps extends Omit<InputProps, 'type'> {
+    type: Schema.Attribute.Kind;
+}
+declare const NotAllowedInput: ({ hint, label, required, name }: NotAllowedInputProps) => import("react/jsx-runtime").JSX.Element;
+export { NotAllowedInput };

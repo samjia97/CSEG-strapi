@@ -1,0 +1,3 @@
+import { DocumentActionComponent } from '../../content-manager';
+declare const HistoryAction: DocumentActionComponent;
+export { HistoryAction };
