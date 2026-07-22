@@ -3,7 +3,12 @@ const fs = require('fs');
 const path = require('path');
 
 const pluginsDir = path.join(__dirname, '..', 'src', 'plugins');
-const excludedPlugins = ['shared','tester-plugin']
+// custom-content-manager3 is a vendored fork of Strapi's content-manager (incl. the
+// EE history/preview code); `strapi-plugin build`'s strict DTS compile can't type-check
+// it against the installed @strapi/* versions. Its dist/ is committed to git and loaded
+// at runtime, so it is intentionally NOT rebuilt here. Rebuild it locally with
+// `strapi-plugin watch` (JS-only) and commit its dist/ when its source changes.
+const excludedPlugins = ['shared','tester-plugin','custom-content-manager3']
 
 if (fs.existsSync(pluginsDir)) {
   const plugins = fs.readdirSync(pluginsDir);

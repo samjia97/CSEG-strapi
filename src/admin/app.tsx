@@ -60,6 +60,21 @@ export default {
     tutorials: false,
     notifications: {releases: false},
 
+    // Render boolean fields as a Yes/No toggle instead of True/False. This overrides
+    // Strapi's app.components.ToggleCheckbox labels globally (every boolean field).
+    // The active admin locale is en-GB, so the override must live there; en is a
+    // fallback safety net.
+    translations: {
+      'en-GB': {
+        'app.components.ToggleCheckbox.on-label': 'Yes',
+        'app.components.ToggleCheckbox.off-label': 'No',
+      },
+      en: {
+        'app.components.ToggleCheckbox.on-label': 'Yes',
+        'app.components.ToggleCheckbox.off-label': 'No',
+      },
+    },
+
     locales: [
       // 'ar',
       // 'fr',

@@ -55,8 +55,8 @@ psql -U postgres
 
 ```sql
 CREATE DATABASE "strapi-db";
-CREATE USER strapiUser WITH PASSWORD 'YOUR_POSTGRES_PASSWORD';
-GRANT ALL PRIVILEGES ON DATABASE "strapi-db" TO strapiUser;
+CREATE USER strapiuser WITH PASSWORD 'YOUR_POSTGRES_PASSWORD';
+GRANT ALL PRIVILEGES ON DATABASE "strapi-db" TO strapiuser;
 \q
 ```
 
@@ -68,7 +68,7 @@ DATABASE_PASSWORD=YOUR_POSTGRES_PASSWORD
 
 #### 1.7 Load database dump
 ```powershell
-psql -U strapiUser -d strapi-db -h localhost -f strapi_backup.sql
+psql -U strapiuser -d strapi-db -h localhost -f strapi_backup.sql
 ```
 
 #### 1.8 Start CCM hot reload (terminal A)
@@ -102,7 +102,7 @@ npm run start
 #### 3.1 Export DB dump from laptop
 Open terminal in `cseg-strapi`:
 ```powershell
-pg_dump -U strapiUser -d strapi-db --clean --if-exists | Out-File -Encoding utf8 strapi_backup.sql
+pg_dump -U strapiuser -d strapi-db --clean --if-exists | Out-File -Encoding utf8 strapi_backup.sql
 ```
 
 #### 3.2 Copy dump to DICE through gateway
@@ -151,7 +151,7 @@ Set at least:
 
 #### 4.5 Restore DB on DICE postgres
 ```bash
-psql -h pgteach`
+psql -h pgteach
 # Setup password access
 s2312606=> ALTER ROLE s2312606 WITH password 'YOUR_POSTGRES_PASSWORD';
 \q
@@ -162,13 +162,13 @@ psql -h pgteach.inf.ed.ac.uk -d YOUR_UNN < ~/strapi_backup.sql
 #### 4.6 Start with PM2 which auto-restarts Strapi if it crashes
 ```bash
 npm install -g pm2
-PM2_HOME=/tmp/pm2_$USER pm2 start npm --name "strapi" -- run start
+PM2_HOME=/tmp/pm2_$USER pm2 start "npm run start" --name strapi
 PM2_HOME=/tmp/pm2_$USER pm2 status
 ```
 
 #### 4.7 Extra PM2 commands
 ```bash
-PM2_HOME=/tmp/pm2_$USER pm2 start npm --name "strapi" -- run start
+PM2_HOME=/tmp/pm2_$USER pm2 start "npm run start" --name strapi
 PM2_HOME=/tmp/pm2_$USER pm2 stop strapi
 PM2_HOME=/tmp/pm2_$USER pm2 restart strapi
 PM2_HOME=/tmp/pm2_$USER pm2 delete strapi

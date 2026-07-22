@@ -34,7 +34,6 @@ export default ({env}) => ({
         // not working now, use your own email instead
         host: 'smtp.gmail.com',
         port: 587,
-        secure: true,
         auth: {
           // not working now, use your own email instead
           user: 'noreply.cseg@gmail.com',

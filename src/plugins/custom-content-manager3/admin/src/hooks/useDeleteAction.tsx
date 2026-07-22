@@ -105,19 +105,21 @@ const useDeleteAction = (
     setIsDeleteDialogOpen(false);
   };
 
+  const entityName = (model.split('.').pop() || 'item').replace(/-/g, ' ');
+
   // Dialog content
   const deleteDialogContent = (
     <Flex direction="column" gap={2}>
     <WarningCircle width="24px" height="24px" fill="danger600" />
     <Typography tag="p" variant="omega" textAlign="center">
-      Are you sure you want to delete this item? This action is irreversible.
+      Are you sure you want to delete this {entityName}? This action is irreversible.
     </Typography>
     </Flex>
   );
 
 
   return {
-    label: 'Delete item',
+    label: `Delete ${entityName}`,
     onClick: handleDelete,
     loading: isLoading,
     disabled: false,

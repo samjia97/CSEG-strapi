@@ -80,16 +80,16 @@ const NoPermissions = () => {
   ] });
 };
 const ProtectedEditViewPage = React.lazy(
-  () => Promise.resolve().then(() => require("./EditViewPage-BrnmEmsQ.js")).then((n) => n.EditViewPage).then((mod) => ({ default: mod.ProtectedEditViewPage }))
+  () => Promise.resolve().then(() => require("./EditViewPage-BqHBcSX6.js")).then((n) => n.EditViewPage).then((mod) => ({ default: mod.ProtectedEditViewPage }))
 );
 const ProtectedListViewPage = React.lazy(
-  () => Promise.resolve().then(() => require("./ListViewPage-6D_spAmK.js")).then((mod) => ({ default: mod.ProtectedListViewPage }))
+  () => Promise.resolve().then(() => require("./ListViewPage-cQbSlS_Q.js")).then((mod) => ({ default: mod.ProtectedListViewPage }))
 );
 const ProtectedListMemberApplicationPage = React.lazy(
-  () => Promise.resolve().then(() => require("./ListTabbedPage-zMSz3rrx.js")).then((mod) => ({ default: mod.ProtectedListMemberApplicationPage }))
+  () => Promise.resolve().then(() => require("./ListTabbedPage-CHz_iJxS.js")).then((mod) => ({ default: mod.ProtectedListMemberApplicationPage }))
 );
 const ProtectedListContactPage = React.lazy(
-  () => Promise.resolve().then(() => require("./ListTabbedPage-zMSz3rrx.js")).then((mod) => ({ default: mod.ProtectedListContactPage }))
+  () => Promise.resolve().then(() => require("./ListTabbedPage-CHz_iJxS.js")).then((mod) => ({ default: mod.ProtectedListContactPage }))
 );
 const CollectionTypePages = () => {
   const { collectionType, slug } = reactRouterDom.useParams();
@@ -279,7 +279,7 @@ const index = {
     app.router.addRoute({
       path: "plugins/custom-content-manager3/*",
       lazy: async () => {
-        const { Layout } = await Promise.resolve().then(() => require("./layout-CjhnEBEE.js"));
+        const { Layout } = await Promise.resolve().then(() => require("./layout-CrR4wMxV.js"));
         return {
           Component: Layout
         };
@@ -318,4 +318,4 @@ exports.PLUGIN_ID = PLUGIN_ID;
 exports.SINGLE_TYPES = SINGLE_TYPES;
 exports.getTranslation = getTranslation;
 exports.index = index;
-//# sourceMappingURL=index-5kUiK4jn.js.map
+//# sourceMappingURL=index-C3a7aSHT.js.map

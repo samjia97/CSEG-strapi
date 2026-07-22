@@ -492,6 +492,8 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
       'api::event-tag.event-tag'
     >;
     body: Schema.Attribute.RichText & Schema.Attribute.Required;
+    bodyFormat: Schema.Attribute.Enumeration<['markdown', 'plain']> &
+      Schema.Attribute.DefaultTo<'markdown'>;
     coverImage: Schema.Attribute.Media<'images'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -839,6 +841,8 @@ export interface ApiForumThreadForumThread extends Struct.CollectionTypeSchema {
         maxLength: 100;
       }>;
     body: Schema.Attribute.RichText & Schema.Attribute.Required;
+    bodyFormat: Schema.Attribute.Enumeration<['markdown', 'plain']> &
+      Schema.Attribute.DefaultTo<'markdown'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
