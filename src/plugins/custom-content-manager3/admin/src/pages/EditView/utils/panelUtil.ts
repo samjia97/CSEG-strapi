@@ -79,6 +79,27 @@ export const extractValidDate = (value: any): Date | null => {
   return !isNaN(parsedDate.getTime()) ? parsedDate : null;
 }
 
+/**
+ * Combines a date-only value (YYYY-MM-DD) and a time value (HH:MM[:SS]) into a Date in
+ * the *local* timezone, so downstream formatting reads back the intended wall-clock start
+ * time. Parsing the date alone via `new Date("2026-07-23")` treats it as UTC midnight,
+ * which then reads back shifted by the local offset (e.g. "1am" under BST). Returns null
+ * if the date is missing/invalid.
+ * @param dateValue - date-only form value, e.g. "2026-07-23"
+ * @param timeValue - time form value, e.g. "14:30:00.000"
+ */
+export const combineDateAndTime = (dateValue: any, timeValue: any): Date | null => {
+  const dateStr = extractFormString(dateValue, '');
+  if (!dateStr) return null;
+  const [y, m, d] = dateStr.split('T')[0].split('-').map(Number);
+  if (!y || !m || !d) return null;
+  const [hRaw, mRaw] = extractFormString(timeValue, '').split(':');
+  const hours = Number(hRaw) || 0;
+  const minutes = Number(mRaw) || 0;
+  const combined = new Date(y, m - 1, d, hours, minutes, 0, 0); // local time
+  return isNaN(combined.getTime()) ? null : combined;
+};
+
 export function extractlocationFormatted(eventFormat: string, physicalLocation: string, teamsLink: string) {
   let locationFormatted = '[Please enter location and microsoft teams link here]';
   if (eventFormat.toLowerCase().includes('hybrid')) {

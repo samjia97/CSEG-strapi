@@ -24,6 +24,7 @@ import {RelationResult} from "../../../../../shared/contracts/relations";
 import {RejectButton} from "../../../action-buttons/RejectButton";
 import qs from "qs";
 import {
+  combineDateAndTime,
   extractFormString,
   extractlocationFormatted,
   extractValidDate,
@@ -226,6 +227,8 @@ const EventActionPanel = ({
     const eventDateObj = extractValidDate(formValues.eventDate);
     const eventDateFormatted = eventDateObj ? formatDate(eventDateObj) : '[Please insert date here]';
 
+    const eventStartDateTime = combineDateAndTime(formValues.eventDate, formValues.eventStartTime);
+
     const eventStartTimeRaw = extractFormString(formValues.eventStartTime, '[Please insert start time here]');
     const eventStartTime = eventStartTimeRaw === '[Please insert start time here]'
       ? eventStartTimeRaw
@@ -270,9 +273,8 @@ const EventActionPanel = ({
         emailDate.setHours(9, 0, 0, 0);
         onChange(`emailDate${i+1}`, emailDate.toISOString());
       }
-      // Fill in subject
-      // TODO: Bug where eventDateObj should set time to eventStartTime before being inserted to formatSubjectDate
-      onChange(`emailSubject${i+1}`, `${eventTypeFormatted} - ${eventDateObj ? formatSubjectDate(eventDateObj) : '[Please insert event date here]'} - ${title}`);
+
+      onChange(`emailSubject${i+1}`, `${eventTypeFormatted} - ${eventStartDateTime ? formatSubjectDate(eventStartDateTime) : '[Please insert event date here]'} - ${title}`);
     }
 
     try {

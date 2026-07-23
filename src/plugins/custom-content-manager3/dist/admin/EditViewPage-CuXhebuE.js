@@ -27,7 +27,7 @@ const designSystem = require("@strapi/design-system");
 const reactIntl = require("react-intl");
 const reactRouterDom = require("react-router-dom");
 const styledComponents = require("styled-components");
-const index = require("./index-C3a7aSHT.js");
+const index = require("./index-9GNe_2Ga.js");
 const React = require("react");
 const yup = require("yup");
 const fractionalIndexing = require("fractional-indexing");
@@ -11241,6 +11241,17 @@ const extractValidDate = (value) => {
   const parsedDate = new Date(dateStr);
   return !isNaN(parsedDate.getTime()) ? parsedDate : null;
 };
+const combineDateAndTime = (dateValue, timeValue) => {
+  const dateStr = extractFormString(dateValue, "");
+  if (!dateStr) return null;
+  const [y, m, d] = dateStr.split("T")[0].split("-").map(Number);
+  if (!y || !m || !d) return null;
+  const [hRaw, mRaw] = extractFormString(timeValue, "").split(":");
+  const hours = Number(hRaw) || 0;
+  const minutes = Number(mRaw) || 0;
+  const combined = new Date(y, m - 1, d, hours, minutes, 0, 0);
+  return isNaN(combined.getTime()) ? null : combined;
+};
 function extractlocationFormatted(eventFormat, physicalLocation, teamsLink) {
   let locationFormatted = "[Please enter location and microsoft teams link here]";
   if (eventFormat.toLowerCase().includes("hybrid")) {
@@ -11391,6 +11402,7 @@ const EventActionPanel = ({
     const abstract = extractFormString(formValues.abstract, "[Please insert abstract here]");
     const eventDateObj = extractValidDate(formValues.eventDate);
     const eventDateFormatted = eventDateObj ? formatDate(eventDateObj) : "[Please insert date here]";
+    const eventStartDateTime = combineDateAndTime(formValues.eventDate, formValues.eventStartTime);
     const eventStartTimeRaw = extractFormString(formValues.eventStartTime, "[Please insert start time here]");
     const eventStartTime = eventStartTimeRaw === "[Please insert start time here]" ? eventStartTimeRaw : eventStartTimeRaw.substring(0, 5);
     const eventEndTimeRaw = extractFormString(formValues.eventEndTime, "[Please insert end time here]");
@@ -11423,7 +11435,7 @@ const EventActionPanel = ({
         emailDate.setHours(9, 0, 0, 0);
         onChange(`emailDate${i + 1}`, emailDate.toISOString());
       }
-      onChange(`emailSubject${i + 1}`, `${eventTypeFormatted} - ${eventDateObj ? formatSubjectDate(eventDateObj) : "[Please insert event date here]"} - ${title}`);
+      onChange(`emailSubject${i + 1}`, `${eventTypeFormatted} - ${eventStartDateTime ? formatSubjectDate(eventStartDateTime) : "[Please insert event date here]"} - ${title}`);
     }
     try {
       for (let i = 0; i < emailTemplateName.length; i++) {
@@ -11881,4 +11893,4 @@ exports.useGetAllDocumentsQuery = useGetAllDocumentsQuery;
 exports.useGetContentTypeConfigurationQuery = useGetContentTypeConfigurationQuery;
 exports.useGetRelationsQuery = useGetRelationsQuery;
 exports.usePrev = usePrev;
-//# sourceMappingURL=EditViewPage-BqHBcSX6.js.map
+//# sourceMappingURL=EditViewPage-CuXhebuE.js.map

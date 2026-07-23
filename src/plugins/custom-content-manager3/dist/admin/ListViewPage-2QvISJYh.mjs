@@ -9,9 +9,9 @@ import { stringify } from "qs";
 import { useIntl } from "react-intl";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { styled } from "styled-components";
-import { I as InjectionZone, V as ViewSettingsMenu, F as FiltersImpl, g as getDisplayName, C as CellContent, T as TableActions } from "./Filters-vjkMPaAf.mjs";
-import { u as useDoc, a as useDocumentLayout, b as usePrev, c as buildValidParams, d as useGetAllDocumentsQuery, D as DocumentStatus, e as convertListLayoutToFieldLayouts } from "./EditViewPage-Cq3Mhiu-.mjs";
-import { g as getTranslation } from "./index-B5TGhmQX.mjs";
+import { I as InjectionZone, V as ViewSettingsMenu, F as FiltersImpl, g as getDisplayName, C as CellContent, T as TableActions } from "./Filters-B1WQ-CRa.mjs";
+import { u as useDoc, a as useDocumentLayout, b as usePrev, c as buildValidParams, d as useGetAllDocumentsQuery, D as DocumentStatus, e as convertListLayoutToFieldLayouts } from "./EditViewPage-BUzGdXvL.mjs";
+import { g as getTranslation } from "./index-B8meZ5x6.mjs";
 const HOOKS = {
   /**
    * Hook that allows to mutate the displayed headers of the list view table
@@ -326,4 +326,4 @@ export {
   ListViewPage,
   ProtectedListViewPage
 };
-//# sourceMappingURL=ListViewPage-BTfqCfdv.mjs.map
+//# sourceMappingURL=ListViewPage-2QvISJYh.mjs.map

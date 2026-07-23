@@ -36,13 +36,13 @@ export default ({env}) => ({
         port: 587,
         auth: {
           // not working now, use your own email instead
-          user: 'noreply.cseg@gmail.com',
+          user: 'samjia9710@gmail.com',
           // SMTP credentials
           pass: env('GMAIL_APP_PASSWORD'),
         },
       },
       settings: {
-        defaultFrom: 'noreply.cseg@gmail.com',
+        defaultFrom: 'samjia9710@gmail.com',
       },
     },
   },

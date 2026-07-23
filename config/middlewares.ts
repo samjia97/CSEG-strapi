@@ -34,9 +34,11 @@ module.exports = [
         const origin = ctx.request.header.origin;
 
         // Check if origin matches your Vercel pattern
+        // localhost:3000 for local debugging
+        // yammer.inf.ed.ac.uk:3000 for deployment on Dice
         if (
             origin === 'http://localhost:3000' ||
-            origin === 'https://cseg-frontend.vercel.app' ||
+            origin === 'http://yammer.inf.ed.ac.uk:3000' ||
             (origin && origin.match(/^https:\/\/cseg-frontend.*\.vercel\.app$/))
         ) {
           return origin; // Allow this origin

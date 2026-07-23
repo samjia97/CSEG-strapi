@@ -8,9 +8,9 @@ import isEqual from "lodash/isEqual";
 import { stringify } from "qs";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { styled } from "styled-components";
-import { I as InjectionZone, V as ViewSettingsMenu, F as FiltersImpl, T as TableActions, g as getDisplayName, C as CellContent } from "./Filters-vjkMPaAf.mjs";
-import { u as useDoc, a as useDocumentLayout, b as usePrev, c as buildValidParams, d as useGetAllDocumentsQuery, e as convertListLayoutToFieldLayouts, D as DocumentStatus } from "./EditViewPage-Cq3Mhiu-.mjs";
-import { g as getTranslation } from "./index-B5TGhmQX.mjs";
+import { I as InjectionZone, V as ViewSettingsMenu, F as FiltersImpl, T as TableActions, g as getDisplayName, C as CellContent } from "./Filters-B1WQ-CRa.mjs";
+import { u as useDoc, a as useDocumentLayout, b as usePrev, c as buildValidParams, d as useGetAllDocumentsQuery, e as convertListLayoutToFieldLayouts, D as DocumentStatus } from "./EditViewPage-BUzGdXvL.mjs";
+import { g as getTranslation } from "./index-B8meZ5x6.mjs";
 const ActionsCell = styled(Table.Cell)`
   display: flex;
   justify-content: flex-end;
@@ -305,4 +305,4 @@ export {
   ProtectedListMemberApplicationPage,
   ProtectedListTabbedPage
 };
-//# sourceMappingURL=ListTabbedPage-BhVQk-74.mjs.map
+//# sourceMappingURL=ListTabbedPage-Dc-pmVzq.mjs.map

@@ -129,7 +129,8 @@ ssh -J YOUR_UNN@student.ssh.inf.ed.ac.uk YOUR_UNN@YOUR_UNNvm.inf.ed.ac.uk
 ```bash
 git clone YOUR_REPO_URL cseg-strapi
 cd cseg-strapi
-npm install --legacy-peer-deps
+npm ci --legacy-peer-deps
+# npm install --legacy-peer-deps may mutated the lockfile
 ```
 
 #### 4.3 Build plugins + build Strapi (with memory flag if you get OOM on run build)
@@ -164,6 +165,30 @@ psql -h pgteach.inf.ed.ac.uk -d YOUR_UNN < ~/strapi_backup.sql
 npm install -g pm2
 PM2_HOME=/tmp/pm2_$USER pm2 start "npm run start" --name strapi
 PM2_HOME=/tmp/pm2_$USER pm2 status
+```
+Don't run pm2 directly, always use 
+```bash
+PM2_HOME=/tmp/pm2_$USER pm2
+```
+otherwise it will use $HOME/.pm2 on Dice, which is a slower filesystem.
+Then PM2's daemon constantly write and stuck the I/O, consume all memory/cpu.
+
+If that happens, run:
+```
+ps aux --sort=-rss | head -n 15
+```
+Find process like:
+```
+# check the PID
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+s2811738  125803 29.5 33.4 6099656 2719820 ?     Dsl  09:27  14:48 PM2 v7.0.3: God Daemon (/afs/inf.ed.ac.uk/user/s28/s2811738/.pm2)
+s2811738  125892 27.8 30.0 5608092 2445264 ?     Rsl  09:29  13:30 PM2 v7.0.3: God Daemon (/afs/inf.ed.ac.uk/user/s28/s2811738/.pm2)
+s2811738  125775 30.6 26.7 6376152 2174356 ?     Rsl  09:26  15:36 PM2 v7.0.3: God Daemon (/afs/inf.ed.ac.uk/user/s28/s2811738/.pm2)
+```
+Then 
+```
+# kill them
+kill -9 125803 125892 125775
 ```
 
 #### 4.7 Extra PM2 commands

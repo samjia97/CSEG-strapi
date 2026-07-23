@@ -4,7 +4,7 @@ import { Status, Typography, Button, Dialog, Modal, Tabs, Flex, IconButton, Text
 import { useIntl } from "react-intl";
 import { useParams, useNavigate, useLocation, useMatch } from "react-router-dom";
 import { styled, css, createGlobalStyle, keyframes } from "styled-components";
-import { S as SINGLE_TYPES, g as getTranslation, C as COLLECTION_TYPES, a as CLONE_PATH, L as LIST_PATH, M as MEMBER_APPLICATION_MODEL, A as APPLICATION_STATUS, E as EVENT_MODEL } from "./index-B5TGhmQX.mjs";
+import { S as SINGLE_TYPES, g as getTranslation, C as COLLECTION_TYPES, a as CLONE_PATH, L as LIST_PATH, M as MEMBER_APPLICATION_MODEL, A as APPLICATION_STATUS, E as EVENT_MODEL } from "./index-B8meZ5x6.mjs";
 import * as React from "react";
 import React__default, { useState, useEffect, useCallback, useRef } from "react";
 import * as yup from "yup";
@@ -11182,6 +11182,17 @@ const extractValidDate = (value) => {
   const parsedDate = new Date(dateStr);
   return !isNaN(parsedDate.getTime()) ? parsedDate : null;
 };
+const combineDateAndTime = (dateValue, timeValue) => {
+  const dateStr = extractFormString(dateValue, "");
+  if (!dateStr) return null;
+  const [y, m, d] = dateStr.split("T")[0].split("-").map(Number);
+  if (!y || !m || !d) return null;
+  const [hRaw, mRaw] = extractFormString(timeValue, "").split(":");
+  const hours = Number(hRaw) || 0;
+  const minutes = Number(mRaw) || 0;
+  const combined = new Date(y, m - 1, d, hours, minutes, 0, 0);
+  return isNaN(combined.getTime()) ? null : combined;
+};
 function extractlocationFormatted(eventFormat, physicalLocation, teamsLink) {
   let locationFormatted = "[Please enter location and microsoft teams link here]";
   if (eventFormat.toLowerCase().includes("hybrid")) {
@@ -11332,6 +11343,7 @@ const EventActionPanel = ({
     const abstract = extractFormString(formValues.abstract, "[Please insert abstract here]");
     const eventDateObj = extractValidDate(formValues.eventDate);
     const eventDateFormatted = eventDateObj ? formatDate(eventDateObj) : "[Please insert date here]";
+    const eventStartDateTime = combineDateAndTime(formValues.eventDate, formValues.eventStartTime);
     const eventStartTimeRaw = extractFormString(formValues.eventStartTime, "[Please insert start time here]");
     const eventStartTime = eventStartTimeRaw === "[Please insert start time here]" ? eventStartTimeRaw : eventStartTimeRaw.substring(0, 5);
     const eventEndTimeRaw = extractFormString(formValues.eventEndTime, "[Please insert end time here]");
@@ -11364,7 +11376,7 @@ const EventActionPanel = ({
         emailDate.setHours(9, 0, 0, 0);
         onChange(`emailDate${i + 1}`, emailDate.toISOString());
       }
-      onChange(`emailSubject${i + 1}`, `${eventTypeFormatted} - ${eventDateObj ? formatSubjectDate(eventDateObj) : "[Please insert event date here]"} - ${title}`);
+      onChange(`emailSubject${i + 1}`, `${eventTypeFormatted} - ${eventStartDateTime ? formatSubjectDate(eventStartDateTime) : "[Please insert event date here]"} - ${title}`);
     }
     try {
       for (let i = 0; i < emailTemplateName.length; i++) {
@@ -11824,4 +11836,4 @@ export {
   prefixFileUrlWithBackendUrl as p,
   useDoc as u
 };
-//# sourceMappingURL=EditViewPage-Cq3Mhiu-.mjs.map
+//# sourceMappingURL=EditViewPage-BUzGdXvL.mjs.map
